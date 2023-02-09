@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography.X509Certificates;
-using TP4_1_Models_EntityFramework;using Microsoft.Extensions.Logging;
+using TP4_1_Models_EntityFramework;
+using Microsoft.Extensions.Logging;
 using System.Runtime.Intrinsics.X86;
 
 
@@ -43,34 +44,31 @@ namespace TP4_1.Models.EntityFramework
                 entity.HasKey(e => new { e.UtilisateurId, e.FilmId }).HasName("pk_notation");
 
                 entity.HasOne(d => d.UtilisateurNotant).WithMany(p => p.NotesUtilisateur)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_notation_notesutilisateur");
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_notation_ult_id");
 
-                entity.HasOne(d => d.UtilisateurNavigation).WithMany(p => p.Avis)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_avis_utilisateur");
-            });
+                entity.HasOne(d => d.FilmNote).WithMany(p => p.NotesFilm)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_notation_flm_id");
 
-            modelBuilder.Entity<Categorie>(entity =>
-            {
-                entity.HasKey(e => e.Id).HasName("pk_categorie");
-            });
-
-            modelBuilder.Entity<Film>(entity =>
-            {
-                entity.HasKey(e => e.Id).HasName("pk_film");
-
-                entity.HasOne(d => d.CategorieNavigation).WithMany(p => p.Films)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_film_categorie");
+                entity.HasCheckConstraint("ck_notation_note", "not_note between 1 and 5");
             });
 
             modelBuilder.Entity<Utilisateur>(entity =>
             {
-                entity.HasKey(e => e.Id).HasName("pk_utilisateur");
+                entity.HasKey(e => e.UtilisateurId).HasName("pk_utilisateur");
+
+                entity.HasAlternateKey(u => u.Mail);
+
             });
 
-            OnModelCreatingPartial(modelBuilder);
+
+            modelBuilder.Entity<Film>(entity =>
+            {
+                entity.HasKey(e => e.FilmID).HasName("pk_film");
+            });
+
+
         }
 
 

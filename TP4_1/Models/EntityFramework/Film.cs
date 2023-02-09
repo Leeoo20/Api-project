@@ -22,23 +22,23 @@ namespace TP4_1.Models.EntityFramework
         public string Titre { get; set; } = null!;
 
         [Column("flm_resume")]
-        public string Resume { get; set; } = null!;
+        public string? Resume { get; set; }
 
         [Column("flm_datesortie")]
-        public DateTime DateSortie { get; set; }
+        public DateTime? DateSortie { get; set; }
 
         [Column("flm_resume")]
-        public decimal Duree { get; set; }
+        public decimal? Duree { get; set; }
 
 
         [Column("flm_genre")]
         [StringLength(30)]
-        public string Genre { get; set; } = null!;
+        public string? Genre { get; set; }
 
 
         [ForeignKey("Utilisateur")]
         [InverseProperty("Notation")]
-        public virtual Notation NotesFilm { get; set; } = null!;
+        public virtual ICollection<Notation> NotesFilm { get; set; } = null!;
 
 
 
