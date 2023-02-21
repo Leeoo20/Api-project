@@ -54,7 +54,7 @@ namespace TP4_1_Models_EntityFramework
 
         [Column("utl_pays")]
         [StringLength(50)]
-        public string? Pays { get; set; } = "France";
+        public string? Pays { get; set; }
 
         [Column("utl_latitude")]
         public float? Laititude { get; set; }
@@ -66,7 +66,7 @@ namespace TP4_1_Models_EntityFramework
 
         [Column("utl_datecreation")]
         [Required]
-        public DateTime DateCreation { get; set; } = DateTime.Now;
+        public DateTime DateCreation { get; set; } 
 
 
 

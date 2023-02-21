@@ -54,6 +54,11 @@ namespace TP4_1.Models.EntityFramework
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("fk_note_utilisateurNotant");
 
+                
+
+
+                entity.HasCheckConstraint("Ck_notation_note", "not_note between 0 and  5");
+
             });
 
             modelBuilder.Entity<Utilisateur>(entity =>
@@ -61,6 +66,12 @@ namespace TP4_1.Models.EntityFramework
                 entity.HasKey(e => e.UtilisateurId).HasName("pk_utilisateur");
 
                 entity.HasAlternateKey(u => u.Mail);
+
+                entity.Property(d => d.Pays)
+                .HasDefaultValue("France");
+
+                entity.Property(d => d.DateCreation)
+                .HasDefaultValueSql("Current_date");
 
             });
 

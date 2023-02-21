@@ -8,7 +8,7 @@ using TP4_1.Models.EntityFramework;
 
 #nullable disable
 
-namespace TP41.Migrations
+namespace TP4_1.Migrations
 {
     [DbContext(typeof(FilmRatingDBContext))]
     partial class FilmRatingDBContextModelSnapshot : ModelSnapshot
@@ -17,7 +17,7 @@ namespace TP41.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.2")
+                .HasAnnotation("ProductVersion", "7.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -74,20 +74,14 @@ namespace TP41.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("not_note");
 
-                    b.Property<int>("utl_id")
-                        .HasColumnType("integer");
-
                     b.HasKey("UtilisateurId", "FilmId")
                         .HasName("pk_notation");
 
                     b.HasIndex("FilmId");
 
-                    b.HasIndex("utl_id");
-
                     b.ToTable("t_j_notation_not", t =>
                         {
-                            t.Property("utl_id")
-                                .HasColumnName("utl_id1");
+                            t.HasCheckConstraint("Ck_notation_note", "not_note between 0 and  5");
                         });
                 });
 
@@ -106,8 +100,10 @@ namespace TP41.Migrations
                         .HasColumnName("utl_cp");
 
                     b.Property<DateTime>("DateCreation")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("utl_datecreation");
+                        .HasColumnName("utl_datecreation")
+                        .HasDefaultValueSql("Current_date");
 
                     b.Property<float?>("Laititude")
                         .HasColumnType("real")
@@ -133,8 +129,10 @@ namespace TP41.Migrations
                         .HasColumnName("utl_nom");
 
                     b.Property<string>("Pays")
+                        .ValueGeneratedOnAdd()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)")
+                        .HasDefaultValue("France")
                         .HasColumnName("utl_pays");
 
                     b.Property<string>("Prenom")
@@ -176,7 +174,7 @@ namespace TP41.Migrations
 
                     b.HasOne("TP4_1_Models_EntityFramework.Utilisateur", "UtilisateurNotant")
                         .WithMany("NotesUtilisateur")
-                        .HasForeignKey("utl_id")
+                        .HasForeignKey("UtilisateurId")
                         .OnDelete(DeleteBehavior.SetNull)
                         .IsRequired()
                         .HasConstraintName("fk_note_utilisateurNotant");

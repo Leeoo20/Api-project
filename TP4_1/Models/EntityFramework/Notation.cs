@@ -21,7 +21,7 @@ namespace TP4_1.Models.EntityFramework
         [Required]
         public int Note { get; set; }
 
-        [ForeignKey("utl_id")]
+        [ForeignKey("UtilisateurId")]
         [InverseProperty("NotesUtilisateur")]
         public virtual Utilisateur UtilisateurNotant { get; set; } = null!;
 
