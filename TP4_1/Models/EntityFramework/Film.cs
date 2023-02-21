@@ -37,7 +37,7 @@ namespace TP4_1.Models.EntityFramework
 
 
         [InverseProperty("FilmNote")]
-        public virtual ICollection<Notation> NotesFilm { get; set; } = null!;
+        public virtual ICollection<Notation> NotesFilm { get; } = new List<Notation>();
 
 
 

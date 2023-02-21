@@ -71,7 +71,7 @@ namespace TP4_1_Models_EntityFramework
 
 
         [InverseProperty("UtilisateurNotant")]
-        public virtual ICollection<Notation> NotesUtilisateur { get; set; } = null!;
+        public virtual ICollection<Notation> NotesUtilisateur { get; } = new List<Notation>();
 
 
     }

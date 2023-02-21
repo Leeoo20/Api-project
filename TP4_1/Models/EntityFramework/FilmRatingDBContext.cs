@@ -26,6 +26,7 @@ namespace TP4_1.Models.EntityFramework
 
         public virtual DbSet<Utilisateur> Utilisateurs { get; set; }
 
+        /*
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 
@@ -36,7 +37,7 @@ namespace TP4_1.Models.EntityFramework
                     .UseNpgsql("Server=localhost;port=5432;Database=FilmsDB; uid=postgres;password=postgres;");
             }
 
-        }
+        }*/
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Notation>(entity =>

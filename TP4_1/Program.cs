@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using TP4_1.Models.EntityFramework;
+
 namespace TP4_1
 {
     public class Program
@@ -8,10 +11,16 @@ namespace TP4_1
 
             // Add services to the container.
 
+        
+
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddDbContext<FilmRatingDBContext>(options
+            => options.UseNpgsql(builder.Configuration.GetConnectionString("FilmDbContext")));
+
 
             var app = builder.Build();
 
