@@ -12,8 +12,8 @@ using TP4_1.Models.EntityFramework;
 namespace TP4_1.Migrations
 {
     [DbContext(typeof(FilmRatingDBContext))]
-    [Migration("20230221081836_CreationBDFilmRatings")]
-    partial class CreationBDFilmRatings
+    [Migration("20230221093508_NewAnnotations1")]
+    partial class NewAnnotations1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

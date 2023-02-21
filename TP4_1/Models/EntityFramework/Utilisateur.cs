@@ -24,18 +24,19 @@ namespace TP4_1_Models_EntityFramework
         public string? Prenom { get; set; } = null!;
 
         [Column("utl_mobile", TypeName = "char(10)")]
+        [RegularExpression(@"^0[0-9]{9}$", ErrorMessage = "Le mobile doit contenir 10 chiffres")]
         public string? Mobile { get; set; }
 
 
         [Column("utl_mail")]
-        [StringLength(100)]
-        
+        [StringLength(100, MinimumLength = 6, ErrorMessage = "La longueur d’un email doit être comprise entre 6 et 100 caractères.")]
+        [EmailAddress]
         [Required]
         public string? Mail { get; set; } = null!;
 
         [Column("utl_pwd")]
-        [StringLength(64)]
         [Required]
+        [RegularExpression(@"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$", ErrorMessage = "Le mot de passe doit contenir caractère spéciaux , 1 majuscule et 1 miniscule")]
         public string? Pwd { get; set; } = null!;
 
 
@@ -44,8 +45,7 @@ namespace TP4_1_Models_EntityFramework
         public string? Rue { get; set; }
 
         [Column("utl_cp")]
-        [StringLength(5)]
-        [MaxLength(5)]
+        [RegularExpression(@"^0[0-9]{5}$", ErrorMessage = "Le code postal doit contenir 10 chiffres")]
         public string? CodePostal { get; set; }
 
         [Column("utl_ville")]
@@ -61,7 +61,6 @@ namespace TP4_1_Models_EntityFramework
 
 
         [Column("utl_longitude")]
-        
         public float? Longitude { get; set; }
 
         [Column("utl_datecreation")]
