@@ -48,7 +48,7 @@ namespace TP4_1.Controllers
         [ActionName("GetUtilisateurByEmail")]
         public async Task<ActionResult<Utilisateur>> GetUtilisateurByEmail(string email)
         {
-            var utilisateur = await _context.Utilisateurs.FirstAsync(c => c.Mail == email);
+            var utilisateur = await _context.Utilisateurs.FirstOrDefaultAsync(c => c.Mail == email);
 
             if (utilisateur == null)
             {
@@ -68,10 +68,19 @@ namespace TP4_1.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUtilisateur(int id, Utilisateur utilisateur)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+
+
             if (id != utilisateur.UtilisateurId)
             {
                 return BadRequest();
             }
+
+
 
             _context.Entry(utilisateur).State = EntityState.Modified;
 
@@ -99,6 +108,11 @@ namespace TP4_1.Controllers
         [HttpPost]
         public async Task<ActionResult<Utilisateur>> PostUtilisateur(Utilisateur utilisateur)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             _context.Utilisateurs.Add(utilisateur);
             await _context.SaveChangesAsync();
 
