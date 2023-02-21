@@ -27,7 +27,7 @@ namespace TP4_1.Models.EntityFramework
         [Column("flm_datesortie")]
         public DateTime? DateSortie { get; set; }
 
-        [Column("flm_resume")]
+        [Column("flm_duree")]
         public decimal? Duree { get; set; }
 
 
@@ -36,8 +36,7 @@ namespace TP4_1.Models.EntityFramework
         public string? Genre { get; set; }
 
 
-        [ForeignKey("Utilisateur")]
-        [InverseProperty("Notation")]
+        [InverseProperty("FilmNote")]
         public virtual ICollection<Notation> NotesFilm { get; set; } = null!;
 
 

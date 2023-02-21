@@ -70,10 +70,7 @@ namespace TP4_1_Models_EntityFramework
 
 
 
-
-
-        [ForeignKey("Utilisateur")]
-        [InverseProperty("Notation")]
+        [InverseProperty("UtilisateurNotant")]
         public virtual ICollection<Notation> NotesUtilisateur { get; set; } = null!;
 
 

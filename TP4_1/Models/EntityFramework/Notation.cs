@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using TP4_1_Models_EntityFramework;
 
 namespace TP4_1.Models.EntityFramework
 {
-    [Table("t_e_film_flm")]
+    [Table("t_j_notation_not")]
+    [PrimaryKey("FilmId", "UtilisateurId")]
     public class Notation
     {
         [Key]
@@ -19,13 +21,13 @@ namespace TP4_1.Models.EntityFramework
         [Required]
         public int Note { get; set; }
 
-        [ForeignKey("Notation")]
-        [InverseProperty("Utilisateur")]
+        [ForeignKey("utl_id")]
+        [InverseProperty("NotesUtilisateur")]
         public virtual Utilisateur UtilisateurNotant { get; set; } = null!;
 
 
-        [ForeignKey("Notation")]
-        [InverseProperty("Film")]
+        [ForeignKey("FilmId")]
+        [InverseProperty("NotesFilm")]
         public virtual Film FilmNote { get; set; } = null!;
 
 

@@ -42,16 +42,18 @@ namespace TP4_1.Models.EntityFramework
             modelBuilder.Entity<Notation>(entity =>
             {
                 entity.HasKey(e => new { e.UtilisateurId, e.FilmId }).HasName("pk_notation");
+              
 
-                entity.HasOne(d => d.UtilisateurNotant).WithMany(p => p.NotesUtilisateur)
-                    .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_notation_ult_id");
+                entity.HasOne(d => d.FilmNote)
+                .WithMany(p => p.NotesFilm)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("fk_note_FilmNote");
 
-                entity.HasOne(d => d.FilmNote).WithMany(p => p.NotesFilm)
-                    .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_notation_flm_id");
+                entity.HasOne(d => d.UtilisateurNotant)
+                .WithMany(p => p.NotesUtilisateur)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("fk_note_utilisateurNotant");
 
-                entity.HasCheckConstraint("ck_notation_note", "not_note between 1 and 5");
             });
 
             modelBuilder.Entity<Utilisateur>(entity =>
