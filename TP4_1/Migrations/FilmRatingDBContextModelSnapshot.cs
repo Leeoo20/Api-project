@@ -95,8 +95,7 @@ namespace TP4_1.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("UtilisateurId"));
 
                     b.Property<string>("CodePostal")
-                        .HasMaxLength(5)
-                        .HasColumnType("character varying(5)")
+                        .HasColumnType("text")
                         .HasColumnName("utl_cp");
 
                     b.Property<DateTime>("DateCreation")
@@ -141,8 +140,7 @@ namespace TP4_1.Migrations
 
                     b.Property<string>("Pwd")
                         .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("character varying(64)")
+                        .HasColumnType("text")
                         .HasColumnName("utl_pwd");
 
                     b.Property<string>("Rue")
