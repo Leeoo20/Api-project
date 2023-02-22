@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using TP4_1.Models.DataManager;
 using TP4_1.Models.EntityFramework;
+using TP4_1.Models.Repository;
+using TP4_1_Models_EntityFramework;
 
 namespace TP4_1
 {
@@ -21,7 +24,7 @@ namespace TP4_1
             builder.Services.AddDbContext<FilmRatingDBContext>(options
             => options.UseNpgsql(builder.Configuration.GetConnectionString("FilmDbContext")));
 
-
+            builder.Services.AddScoped<IDataRepository<Utilisateur>, UtilisateurManager>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

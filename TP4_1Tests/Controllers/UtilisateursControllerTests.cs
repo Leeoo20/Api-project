@@ -12,6 +12,8 @@ using TP4_1_Models_EntityFramework;
 using Microsoft.VisualBasic;
 using System.Collections.ObjectModel;
 using Microsoft.AspNetCore.Mvc;
+using TP4_1.Models.DataManager;
+using TP4_1.Models.Repository;
 
 namespace TP4_1.Controllers.Tests
 {
@@ -22,14 +24,15 @@ namespace TP4_1.Controllers.Tests
         private UtilisateursController controller;
 
         private FilmRatingDBContext context;
+        private IDataRepository<Utilisateur> dataRepository;
 
         public UtilisateursControllerTests()
         {
             var builder = new DbContextOptionsBuilder<FilmRatingDBContext>()
                   .UseNpgsql("Server = localhost; port = 5432; Database = FilmsDB; uid = postgres; password = postgres;"); // Chaine de connexion à mettre dans les ( )
             this.Context = new FilmRatingDBContext(builder.Options);
-
-            this.Controller = new UtilisateursController(this.Context);
+            this.dataRepository = new UtilisateurManager(context);
+            this.Controller = new UtilisateursController(this.dataRepository);
 
         }
 
@@ -108,14 +111,14 @@ namespace TP4_1.Controllers.Tests
         }
 
         [TestMethod()]
-        public void UtilisateurGetByIDTest_NonOK()
+        public void UtilisateurGetByEmaimTest_NonOK()
         {
 
             var result = this.Controller.GetUtilisateurByEmail("rrichin1@naver.com").Result;
 
             Assert.IsNotNull(result.Result);
             Assert.IsInstanceOfType(result.Result, typeof(NotFoundResult));
-            Assert.AreEqual(((NotFoundResult)result.Result).StatusCode, 404, "test");
+            Assert.AreEqual(((NotFoundResult)result.Result).StatusCode, 404, "test"); 
             Assert.IsNull(result.Value, "test");
         }
 
@@ -225,11 +228,75 @@ namespace TP4_1.Controllers.Tests
             Utilisateur utilisateurTest = this.Context.Utilisateurs.Find(actionUser.UtilisateurId);
 
             Assert.AreEqual(utilisateurTest, actionUser, "La modification n'a pas été faite");
-
-
-
             
         }
+
+
+        [TestMethod]
+        public void Pututilisateur_ModelNotSameID()
+        {
+
+            int id = 10;
+
+            Utilisateur userAtester = new Utilisateur()
+            {
+                UtilisateurId= 12,
+                Nom = "MACHIN",
+                Prenom = "Luc",
+                Mobile = "0606070809",
+                Mail = "machin@gmail.com",
+                Pwd = "Toto1234!",
+                Rue = "Chemin de Bellevue",
+                CodePostal = "74940",
+                Ville = "Annecy-le-Vieux",
+                Pays = "France",
+                Laititude = null,
+                Longitude = null
+            };
+
+            var result2 = this.Controller.PutUtilisateur(id, userAtester).Result;
+
+            Assert.IsNotNull(result2, "test");
+            Assert.IsInstanceOfType(result2, typeof(BadRequestResult), "test");
+            Assert.AreEqual(((BadRequestResult)result2).StatusCode, 400, "test");
+       
+        }
+
+
+        [TestMethod]
+        public void Pututilisateur_ModelNotExist()
+        {
+
+            int id = 10000;
+
+            Utilisateur userAtester = new Utilisateur()
+            {
+                UtilisateurId = 10000,
+                Nom = "MACHIN",
+                Prenom = "Luc",
+                Mobile = "0606070809",
+                Mail = "machin@gmail.com",
+                Pwd = "Toto1234!",
+                Rue = "Chemin de Bellevue",
+                CodePostal = "74940",
+                Ville = "Annecy-le-Vieux",
+                Pays = "France",
+                Laititude = null,
+                Longitude = null
+            };
+
+            var result2 = this.Controller.PutUtilisateur(id, userAtester).Result;
+
+            Assert.IsNotNull(result2, "test");
+            Assert.IsInstanceOfType(result2, typeof(NotFoundResult), "test");
+            Assert.AreEqual(((NotFoundResult)result2).StatusCode, 404, "test");
+
+        }
+
+
+
+
+
 
         [TestMethod]
         [ExpectedException(typeof(AggregateException))]
