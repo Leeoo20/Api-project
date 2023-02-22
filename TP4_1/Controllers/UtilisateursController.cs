@@ -50,7 +50,7 @@ namespace TP4_1.Controllers
             //var utilisateur = await _context.Utilisateurs.FindAsync(id);
             var utilisateur = await dataRepository.GetByIdAsync(id);
 
-            if (utilisateur.Value == null) // Sinon ne marche pas avec la maj
+            if (utilisateur == null || utilisateur.Value == null)  //marche pas sinon 
             {
                 return NotFound();
             }
@@ -67,7 +67,7 @@ namespace TP4_1.Controllers
             var utilisateur = await dataRepository.GetByStringAsync(email);
 
 
-            if (utilisateur.Value == null)
+            if (utilisateur == null || utilisateur.Value == null ) //marche pas avec changement
             {
                 return NotFound();
             }
@@ -157,7 +157,7 @@ namespace TP4_1.Controllers
         {
             //var utilisateur = await _context.Utilisateurs.FindAsync(id);
             var utilisateur = await dataRepository.GetByIdAsync(id);
-            if (utilisateur == null)
+            if (utilisateur.Value == null)
             {
                 return NotFound();
             }
