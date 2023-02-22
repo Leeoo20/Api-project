@@ -157,7 +157,7 @@ namespace TP4_1.Controllers
         {
             //var utilisateur = await _context.Utilisateurs.FindAsync(id);
             var utilisateur = await dataRepository.GetByIdAsync(id);
-            if (utilisateur == null)
+            if (utilisateur.Value == null)
             {
                 return NotFound();
             }

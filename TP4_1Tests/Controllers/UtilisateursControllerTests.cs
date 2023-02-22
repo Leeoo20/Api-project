@@ -411,9 +411,23 @@ namespace TP4_1.Controllers.Tests
             Assert.IsNull(utiliseur, "l'utilisateur n'a pas été supprimé");
 
 
+        }
+
+
+        [TestMethod()]
+        public void DeleteUtilisateur_NotOK()
+        {
+            int id = 10000;
+
+            var result2 = this.Controller.DeleteUtilisateur(id).Result;
+
+            Assert.IsNotNull(result2, "test");
+            Assert.IsInstanceOfType(result2, typeof(NotFoundResult));
+            Assert.AreEqual(404, ((NotFoundResult)result2).StatusCode, "test");
 
 
         }
+
 
 
 
