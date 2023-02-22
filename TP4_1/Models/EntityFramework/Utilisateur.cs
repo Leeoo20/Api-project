@@ -45,7 +45,6 @@ namespace TP4_1_Models_EntityFramework
         public string? Rue { get; set; }
 
         [Column("utl_cp")]
-        [RegularExpression(@"^0[0-9]{5}$", ErrorMessage = "Le code postal doit contenir 10 chiffres")]
         public string? CodePostal { get; set; }
 
         [Column("utl_ville")]
@@ -70,7 +69,7 @@ namespace TP4_1_Models_EntityFramework
 
 
         [InverseProperty("UtilisateurNotant")]
-        public virtual ICollection<Notation> NotesUtilisateur { get; } = new List<Notation>();
+        public virtual ICollection<Notation> NotesUtilisateur { get; set; } = new List<Notation>();
 
 
     }

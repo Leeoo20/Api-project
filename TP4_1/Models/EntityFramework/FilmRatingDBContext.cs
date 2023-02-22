@@ -73,6 +73,7 @@ namespace TP4_1.Models.EntityFramework
 
                 entity.Property(d => d.DateCreation)
                 .HasDefaultValueSql("Current_date");
+                //METTRE now() a la place de current_date 
 
             });
 

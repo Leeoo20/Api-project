@@ -5,27 +5,41 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TP4_1.Models.DataManager;
 using TP4_1.Models.EntityFramework;
+using TP4_1.Models.Repository;
 using TP4_1_Models_EntityFramework;
 
 namespace TP4_1.Controllers
 {
+    /*AVANT pattern Repository*/
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class UtilisateursController : ControllerBase
     {
-        private readonly FilmRatingDBContext _context;
+        private readonly IDataRepository<Utilisateur> dataRepository;
 
+        public UtilisateursController(IDataRepository<Utilisateur> dataRepo)
+        {
+            dataRepository = dataRepo;
+        }
+
+
+        // private readonly FilmRatingDBContext _context;
+        /*
         public UtilisateursController(FilmRatingDBContext context)
         {
             _context = context;
-        }
+        }*/
+
+
 
         // GET: api/Utilisateurs
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Utilisateur>>> GetUtilisateurs()
         {
-            return await _context.Utilisateurs.ToListAsync();
+            //return await _context.Utilisateurs.ToListAsync();
+            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/Utilisateurs/5
@@ -33,9 +47,10 @@ namespace TP4_1.Controllers
         [ActionName("GetUtilisateurById")]
         public async Task<ActionResult<Utilisateur>> GetUtilisateurById(int id)
         {
-            var utilisateur = await _context.Utilisateurs.FindAsync(id);
+            //var utilisateur = await _context.Utilisateurs.FindAsync(id);
+            var utilisateur = await dataRepository.GetByIdAsync(id);
 
-            if (utilisateur == null)
+            if (utilisateur.Value == null) // Sinon ne marche pas avec la maj
             {
                 return NotFound();
             }
@@ -48,9 +63,11 @@ namespace TP4_1.Controllers
         [ActionName("GetUtilisateurByEmail")]
         public async Task<ActionResult<Utilisateur>> GetUtilisateurByEmail(string email)
         {
-            var utilisateur = await _context.Utilisateurs.FirstOrDefaultAsync(c => c.Mail == email);
+            //var utilisateur = await _context.Utilisateurs.FirstOrDefaultAsync(c => c.Mail == email);
+            var utilisateur = await dataRepository.GetByStringAsync(email);
 
-            if (utilisateur == null)
+
+            if (utilisateur.Value == null)
             {
                 return NotFound();
             }
@@ -68,10 +85,11 @@ namespace TP4_1.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUtilisateur(int id, Utilisateur utilisateur)
         {
+            /* POUR LEVER ERREURS SI MARCHE PAS
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
-            }
+            }*/
 
 
 
@@ -80,7 +98,7 @@ namespace TP4_1.Controllers
                 return BadRequest();
             }
 
-
+            /*
 
             _context.Entry(utilisateur).State = EntityState.Modified;
 
@@ -100,7 +118,19 @@ namespace TP4_1.Controllers
                 }
             }
 
-            return NoContent();
+            return NoContent();*/
+
+            var userToUpdate = await dataRepository.GetByIdAsync(id);
+            
+            if (userToUpdate.Value == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                await dataRepository.UpdateAsync(userToUpdate.Value, utilisateur);
+                return NoContent();
+            }
         }
 
         // POST: api/Utilisateurs
@@ -113,8 +143,10 @@ namespace TP4_1.Controllers
                 return BadRequest(ModelState);
             }
 
-            _context.Utilisateurs.Add(utilisateur);
-            await _context.SaveChangesAsync();
+            /*_context.Utilisateurs.Add(utilisateur);
+            await _context.SaveChangesAsync();*/
+
+            await dataRepository.AddAsync(utilisateur);
 
             return CreatedAtAction("GetUtilisateurById", new { id = utilisateur.UtilisateurId }, utilisateur);
         }
@@ -123,21 +155,24 @@ namespace TP4_1.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUtilisateur(int id)
         {
-            var utilisateur = await _context.Utilisateurs.FindAsync(id);
+            //var utilisateur = await _context.Utilisateurs.FindAsync(id);
+            var utilisateur = await dataRepository.GetByIdAsync(id);
             if (utilisateur == null)
             {
                 return NotFound();
             }
 
-            _context.Utilisateurs.Remove(utilisateur);
-            await _context.SaveChangesAsync();
+            /*_context.Utilisateurs.Remove(utilisateur);
+            await _context.SaveChangesAsync();*/
+            await dataRepository.DeleteAsync(utilisateur.Value);
+
 
             return NoContent();
         }
 
-        private bool UtilisateurExists(int id)
+        /*private bool UtilisateurExists(int id) NE SE
         {
             return _context.Utilisateurs.Any(e => e.UtilisateurId == id);
-        }
+        }*/
     }
 }
