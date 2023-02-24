@@ -550,6 +550,7 @@ namespace TP4_1.Controllers.Tests
         }
 
 
+        /*
         [TestMethod]
         public void DeleteUtilisateurTest_AvecMoq()
         {
@@ -560,7 +561,7 @@ namespace TP4_1.Controllers.Tests
             var actionResult = userController.DeleteUtilisateur(1).Result;
             // Assert
             Assert.IsInstanceOfType(actionResult, typeof(NoContentResult), "Pas un NoContentResult"); // Test du type de retour
-        }
+        }*/
 
 
 

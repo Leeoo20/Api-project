@@ -12,7 +12,7 @@ using TP4_1.Models.EntityFramework;
 namespace TP4_1.Migrations
 {
     [DbContext(typeof(FilmRatingDBContext))]
-    [Migration("20230222071739_CreationBDFilmRatings")]
+    [Migration("20230224072747_CreationBDFilmRatings")]
     partial class CreationBDFilmRatings
     {
         /// <inheritdoc />
